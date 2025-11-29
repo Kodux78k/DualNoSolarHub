@@ -1,324 +1,1009 @@
 <!DOCTYPE html>
+<!-- MOBILE-FIRST VERTICAL HARD-LOCK -->
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Hub1 · Apps Integrados</title>
-    <!-- Manifest & Icons for PWA -->
-    <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="icon" type="svg/xml" sizes="192x192" href="icon-192.svg" />
-    <link rel="icon" type="svg/xml" sizes="512x512" href="icon-512.svg" />
-    <meta name="theme-color" content="#050d18" />
-    <style>
-      /* === Tokens de cores básicas === */
-      :root {
-        --bg-start: #0a0e18;
-        --bg-end: #050d10;
-        --panel: rgba(7, 14, 28, 0.85);
-        --panel-soft: rgba(7, 14, 28, 0.70);
-        --ink: #eafcff;
-        --muted: #9fb3cc;
-        --accent: #7dd3fc;
-        --radius-card: 14px;
-      }
+<head>
+  <meta charset="utf-8" />
+  <title>Hub1 · Apps Integrados · Index19 v3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-      /* === Reset e estrutura === */
-      *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html, body { height: 100%; }
-      body {
-        background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
-        color: var(--ink);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        overflow-x: hidden;
-      }
-      .app {
-        width: 100%;
-        max-width: 480px;
-        padding: 16px;
-      }
+  <!-- PWA (ajusta se quiser) -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <meta name="theme-color" content="#050715" />
 
-      /* === Hero / Painel de horário === */
-      .hero-card {
-        background: var(--panel);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      }
-      .hero-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-      }
-      .hero-title { font-size: 1.4rem; font-weight: 600; }
-      .hero-subtitle { font-size: 1rem; color: var(--muted); margin-top: 4px; }
-      .hero-slider { margin-top: 16px; }
-      .hero-slider-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-      .label-mood {
-        background: var(--accent);
-        color: #051923;
-        padding: 4px 8px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-      }
-      .range-wrap { position: relative; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 8px; }
-      .range-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--accent); border-radius: 4px; transform-origin: left center; transform: scaleX(0.1); }
-      input.hero-range {
-        width: 100%; margin-top: 12px;
-        appearance: none;
-        background: transparent;
-        height: 24px;
-      }
-      input.hero-range::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 20px; height: 20px;
-        background: var(--accent);
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 0 0 2px #051923;
-      }
-      input.hero-range::-moz-range-thumb {
-        width: 20px; height: 20px;
-        background: var(--accent);
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+  <style>
+    :root {
+      /* Nebula Pro + Base Madeira · Index19 vibe */
+      --bg-main: radial-gradient(circle at top, #201431 0%, #050715 45%, #020309 100%);
 
-      /* === Stacks (cards sanfonados) === */
-      details.stack {
-        background: var(--panel);
-        border-radius: var(--radius-card);
-        backdrop-filter: blur(12px);
-        box-shadow:
-          0 18px 40px rgba(0, 0, 0, 0.45),
-          0 0 0 1px rgba(255, 255, 255, 0.03);
-        margin-bottom: 12px;
-        overflow: hidden;
-        transition: box-shadow 0.3s;
+      --card-main: rgba(8, 10, 25, 0.96);
+      --card-soft: rgba(12, 15, 35, 0.96);
+      --card-pill: rgba(10, 13, 30, 0.98);
+
+      --text-main: #f7f7ff;
+      --text-soft: #d1d4ff;
+      --text-muted: #8a8eb5;
+
+      --accent-blue: #4fb6ff;
+      --accent-warm: #ffb45b;
+      --accent-strong: #ff8b3d;
+      --danger: #ff5c7a;
+
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+
+      --shadow-strong: 0 22px 45px rgba(0, 0, 0, 0.88);
+      --shadow-soft: 0 14px 32px rgba(0, 0, 0, 0.7);
+
+      /* aliases Hub1 */
+      --panel: var(--card-soft);
+      --ink: var(--text-main);
+      --muted: var(--text-muted);
+      --accent: var(--accent-blue);
+    }
+
+    /* RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-main);
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    /* Glow inteligente: muda com data-mood */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at 80% 10%,
+        rgba(79, 182, 255, 0.4),
+        transparent 60%
+      );
+      mix-blend-mode: screen;
+      opacity: 0.8;
+      z-index: -1;
+    }
+
+    body[data-mood="manha"]::before {
+      background: radial-gradient(
+        circle at 80% 0,
+        rgba(79, 182, 255, 0.55),
+        transparent 55%
+      );
+      opacity: 0.85;
+    }
+
+    body[data-mood="tarde"]::before {
+      /* aqui entra o laranja */
+      background: radial-gradient(
+        circle at 80% 0,
+        rgba(255, 139, 61, 0.8),
+        transparent 55%
+      );
+      opacity: 0.98;
+    }
+
+    body[data-mood="noite"]::before {
+      background: radial-gradient(
+        circle at 70% -10%,
+        rgba(128, 103, 255, 0.65),
+        transparent 55%
+      );
+      opacity: 0.85;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding:
+        18px
+        16px
+        calc(26px + env(safe-area-inset-bottom, 0px))
+        calc(16px + env(safe-area-inset-left, 0px));
+    }
+
+    /* ========== HERO / PAINEL ========== */
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      background: linear-gradient(
+        135deg,
+        rgba(6, 9, 26, 0.98),
+        rgba(26, 12, 3, 0.98)
+      );
+      border: 1px solid rgba(255, 175, 104, 0.75);
+      padding: 16px 18px 12px;
+      box-shadow: var(--shadow-strong);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    /* Hero por mood */
+    body[data-mood="manha"] .hero-card {
+      background: linear-gradient(
+        135deg,
+        rgba(10, 18, 40, 0.98),
+        rgba(9, 35, 62, 0.98)
+      );
+      border-color: rgba(159, 211, 255, 0.8);
+    }
+
+    body[data-mood="tarde"] .hero-card {
+      background: linear-gradient(
+        135deg,
+        rgba(20, 11, 34, 0.98),
+        rgba(40, 16, 4, 0.98)
+      );
+      border-color: rgba(255, 175, 104, 0.9);
+    }
+
+    body[data-mood="noite"] .hero-card {
+      background: linear-gradient(
+        135deg,
+        rgba(5, 8, 26, 0.98),
+        rgba(5, 5, 20, 0.98)
+      );
+      border-color: rgba(144, 163, 255, 0.88);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 72%;
+    }
+
+    .hero-title,
+    #heroGreeting {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .hero-subtitle,
+    #heroSubtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .hero-time {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .hero-time span {
+      display: block;
+    }
+
+    #timeLeft {
+      font-size: 12px;
+      color: var(--accent-warm);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Chip "modo do dia" */
+
+    .hero-mode-row {
+      margin-top: 4px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .hero-mode-chip {
+      border-radius: 999px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: radial-gradient(
+        circle at top,
+        rgba(79, 182, 255, 0.22),
+        transparent 70%
+      );
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: default;
+    }
+
+    .hero-mode-chip::before {
+      content: "●";
+      font-size: 0.76rem;
+      color: var(--accent-blue);
+    }
+
+    body[data-mood="manha"] .hero-mode-chip::before {
+      color: #4fb6ff;
+    }
+    body[data-mood="tarde"] .hero-mode-chip::before {
+      color: #ffb45b;
+    }
+    body[data-mood="noite"] .hero-mode-chip::before {
+      color: #9f8bff;
+    }
+
+    /* slider */
+
+    .hero-slider {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-slider-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hero-slider-row span:first-child,
+    .hero-slider-row span:last-child {
+      color: var(--text-muted);
+    }
+
+    .label-mood {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(10, 13, 35, 0.98);
+      border: 1px solid rgba(255, 175, 104, 0.6);
+      box-shadow: var(--shadow-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-warm);
+      white-space: nowrap;
+    }
+
+    .range-wrap {
+      position: relative;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .range-fill {
+      position: absolute;
+      inset: 0;
+      transform-origin: left center;
+      transform: scaleX(0.1);
+      background: linear-gradient(90deg, #4fb6ff, #ffb45b, #ff8b3d);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    input.hero-range {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      height: 24px;
+      outline: none;
+      margin-top: 2px;
+    }
+
+    input.hero-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffd48a;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 18px rgba(255, 196, 120, 0.9);
+      cursor: pointer;
+      margin-top: -7px;
+    }
+
+    input.hero-range::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffd48a;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 18px rgba(255, 196, 120, 0.9);
+      cursor: pointer;
+    }
+
+    /* ========== STACKS / CARDS ========== */
+
+    details.stack {
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, transform 0.22s ease;
+      border: 1px solid rgba(144, 163, 255, 0.4);
+    }
+
+    details.stack[open] {
+      box-shadow:
+        0 22px 46px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+      transform: translateY(-1px);
+    }
+
+    details.stack[data-local="yes"] {
+      border-style: dashed;
+      border-color: rgba(144, 255, 183, 0.7);
+    }
+
+    summary.stack-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary.stack-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .stack-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stack-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .stack-sub {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .stack-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stack-pill {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-soft);
+    }
+
+    .stack-icon {
+      font-size: 1.2rem;
+    }
+
+    .stack-body {
+      padding: 0 16px 14px 16px;
+      color: var(--ink);
+      font-size: 0.93rem;
+      line-height: 1.5;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      background: radial-gradient(
+        circle at top left,
+        rgba(79, 182, 255, 0.08),
+        transparent 55%
+      );
+      animation: fadeUp 0.35s ease-out;
+    }
+
+    .stack-body p {
+      margin-bottom: 8px;
+    }
+
+    .stack-save-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 6px;
+    }
+
+    .stack-save-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(16, 20, 48, 0.96);
+      color: var(--text-soft);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    pre.md-code {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px;
+      border-radius: 14px;
+      overflow: auto;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
       }
-      details.stack[open] {
-        box-shadow:
-          0 22px 46px rgba(0, 0, 0, 0.55),
-          0 0 0 1px rgba(255, 255, 255, 0.04);
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      summary.stack-summary {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px;
-        cursor: pointer;
-      }
-      .stack-main { display: flex; flex-direction: column; }
-      .stack-title { font-size: 1.1rem; font-weight: 600; }
-      .stack-sub { font-size: 0.85rem; color: var(--muted); }
-      .stack-meta { display: flex; align-items: center; gap: 8px; }
-      .stack-pill {
-        background: rgba(255,255,255,0.1);
-        padding: 4px 8px;
-        border-radius: 999px;
-        font-size: 0.75rem;
-      }
-      .stack-icon { font-size: 1.2rem; }
-      .stack-body { padding: 16px; color: var(--ink); font-size: 0.95rem; }
-      /* Pre format para código gerado pelo Livro Vivo */
-      pre.md-code { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; overflow: auto; }
-    </style>
-  </head>
-  <body>
-    <div class="app">
-      <!-- Hero / Painel de horário -->
-      <section class="hero-card">
-        <div class="hero-top">
-          <div id="timeLeft">00:00</div>
-          <!-- Você pode adicionar um botão de voz futuramente -->
+    }
+
+    /* ========== IFRAME · TELHA CHEIA + RESIZER ========== */
+
+    .iframe-shell {
+      border-radius: 18px;
+      background: rgba(5, 7, 20, 0.96);
+      border: 1px solid rgba(144, 163, 255, 0.55);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .iframe-shell-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      background: linear-gradient(
+        90deg,
+        rgba(79, 182, 255, 0.18),
+        transparent
+      );
+    }
+
+    .iframe-label {
+      opacity: 0.9;
+    }
+
+    .iframe-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 4px 10px;
+      background: rgba(10, 13, 30, 0.9);
+      color: var(--text-soft);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      cursor: pointer;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+    }
+
+    .iframe-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: 70vh; /* altura padrão */
+      border: none;
+      border-radius: 0;
+      transition: height 0.2s ease;
+    }
+
+    /* estado telha cheia (quando clicado no botão) */
+    .iframe-shell.is-expanded .iframe-wrapper iframe {
+      height: 92vh;
+    }
+
+    .iframe-resizer {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8, 10, 32, 0.96);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: ns-resize;
+      touch-action: none;
+    }
+
+    .iframe-resizer-handle {
+      width: 42px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(79, 182, 255, 0.85),
+        rgba(255, 180, 91, 0.85)
+      );
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- HERO / PAINEL -->
+    <section class="hero-card">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="hero-title" id="heroGreeting">Olá!</div>
+          <div class="hero-subtitle" id="heroSubtitle">
+            Bem-vindo ao Hub1 integrado.
+          </div>
         </div>
-        <div class="hero-title" id="heroGreeting">Olá!</div>
-        <div class="hero-subtitle" id="heroSubtitle">Bem‑vindo ao Hub1 integrado.</div>
-        <div class="hero-slider">
-          <div class="hero-slider-row">
-            <span>6h</span>
-            <span class="label-mood" id="moodLabel">Manhã</span>
-            <span>21h</span>
-          </div>
-          <div class="range-wrap">
-            <div class="range-fill" id="rangeFill"></div>
-          </div>
-          <input class="hero-range" id="timeRange" type="range" min="6" max="21" step="1" value="9" />
+        <div class="hero-time">
+          <span>0h · início</span>
+          <span>23h · fechar o dia</span>
+          <span id="timeLeft">00:00</span>
         </div>
-      </section>
+      </div>
 
-      <!-- Stack 1: Design System Guia -->
-      <details class="stack" data-load="design">
-        <summary class="stack-summary">
-          <div class="stack-main">
-            <div class="stack-title">Design System</div>
-            <div class="stack-sub">Guia e classes</div>
-          </div>
-          <div class="stack-meta">
-            <span class="stack-pill">Docs</span>
-            <div class="stack-icon">📘</div>
-          </div>
-        </summary>
-        <div class="stack-body" id="designContent">
-          <p>Carregando guia…</p>
+      <div class="hero-mode-row">
+        <button class="hero-mode-chip" id="heroModeChip" type="button">
+          Modo: Fluxo
+        </button>
+      </div>
+
+      <div class="hero-slider">
+        <div class="hero-slider-row">
+          <span>0h</span>
+          <span class="label-mood" id="moodLabel">Ritmo do dia</span>
+          <span>23h</span>
         </div>
-      </details>
-
-      <!-- Stack 2: Masterclass Livro Vivo -->
-      <details class="stack" data-load="master">
-        <summary class="stack-summary">
-          <div class="stack-main">
-            <div class="stack-title">Masterclass</div>
-            <div class="stack-sub">Conteúdo Livro Vivo</div>
-          </div>
-          <div class="stack-meta">
-            <span class="stack-pill">Aula</span>
-            <div class="stack-icon">📖</div>
-          </div>
-        </summary>
-        <div class="stack-body" id="masterContent">
-          <p>Carregando masterclass…</p>
+        <div class="range-wrap">
+          <div class="range-fill" id="rangeFill"></div>
         </div>
-      </details>
+        <input
+          class="hero-range"
+          id="timeRange"
+          type="range"
+          min="0"
+          max="23"
+          step="1"
+          value="9"
+        />
+      </div>
+    </section>
 
-      <!-- Stack 3: Home IA -->
-      <details class="stack" data-load="homeIA">
-        <summary class="stack-summary">
-          <div class="stack-main">
-            <div class="stack-title">Home IA</div>
-            <div class="stack-sub">Versão IA do Hub1</div>
-          </div>
-          <div class="stack-meta">
-            <span class="stack-pill">IA</span>
-            <div class="stack-icon">🤖</div>
-          </div>
-        </summary>
-        <div class="stack-body" id="homeIAContent">
-          <p>Carregando Home IA…</p>
+    <!-- STACK 1 · Design System -->
+    <details class="stack" data-load="design">
+      <summary class="stack-summary">
+        <div class="stack-main">
+          <div class="stack-title">Design System · Hub1</div>
+          <div class="stack-sub">Guia de classes, tokens, padrões</div>
         </div>
-      </details>
-
-      <!-- Stack 4: Node 01 -->
-      <details class="stack" data-load="node01">
-        <summary class="stack-summary">
-          <div class="stack-main">
-            <div class="stack-title">Node 01</div>
-            <div class="stack-sub">Console local</div>
-          </div>
-          <div class="stack-meta">
-            <span class="stack-pill">Node</span>
-            <div class="stack-icon">🛰️</div>
-          </div>
-        </summary>
-        <div class="stack-body" id="node01Content">
-          <p>Carregando Node 01…</p>
+        <div class="stack-meta">
+          <span class="stack-pill">Docs</span>
+          <div class="stack-icon">📘</div>
         </div>
-      </details>
-    </div>
+      </summary>
+      <div class="stack-body" id="designContent">
+        <p>Carregando guia de referência…</p>
+      </div>
+    </details>
 
-    <!-- Scripts -->
-    <script src="convertLivroVivo.js"></script>
-    <script src="livro_vivo_trinity_override.js"></script>
-    <script>
-      // Atualiza relógio em tempo real
-      function updateClock(){
-        const now = new Date();
-        document.getElementById('timeLeft').textContent = now.toLocaleTimeString('pt-BR',{hour:'2-digit', minute:'2-digit'});
-      }
-      // Define humor a partir da hora
-      const moodForHour = h => (h >= 5 && h < 12 ? 'manha' : (h < 19 ? 'tarde' : 'noite'));
-      const moodText = { manha:'Manhã focada', tarde:'Tarde produtiva', noite:'Noite tranquila' };
-      function updateMood(h){
-        const rangeFill = document.getElementById('rangeFill');
-        const span = (h - 6) / (21 - 6);
-        rangeFill.style.transform = `scaleX(${Math.max(0.05, span)})`;
-        const mood = moodForHour(h);
-        document.body.setAttribute('data-mood', mood);
-        document.getElementById('moodLabel').textContent = moodText[mood] || '';
-        let greeting = 'Olá!';
-        if(mood==='manha') greeting = 'Bom dia!';
-        else if(mood==='tarde') greeting = 'Boa tarde!';
-        else greeting = 'Boa noite!';
-        document.getElementById('heroGreeting').textContent = greeting;
-        // Mudança de subtítulo
-        const hs = document.getElementById('heroSubtitle');
-        if(mood==='manha') hs.textContent = 'Hora de organizar sua dose diária.';
-        else if(mood==='tarde') hs.textContent = 'Continuamos firmes na metade do dia.';
-        else hs.textContent = 'Desacelere sem largar seu 1%.';
-      }
-      // Sincroniza slider com relógio atual
-      function syncFromClock(){
-        const now = new Date();
-        let h = now.getHours();
-        if(h < 6) h = 6; if(h > 21) h = 21;
-        document.getElementById('timeRange').value = h;
-        updateMood(h);
-        updateClock();
-      }
+    <!-- STACK 2 · Masterclass Livro Vivo -->
+    <details class="stack" data-load="master">
+      <summary class="stack-summary">
+        <div class="stack-main">
+          <div class="stack-title">Masterclass · Livro Vivo</div>
+          <div class="stack-sub">Conteúdo simbólico em Markdown</div>
+        </div>
+        <div class="stack-meta">
+          <span class="stack-pill">Aula</span>
+          <div class="stack-icon">📖</div>
+        </div>
+      </summary>
+      <div class="stack-body" id="masterContent">
+        <p>Carregando masterclass…</p>
+      </div>
+    </details>
 
-      // Carrega markdown e converte para HTML
-      function loadMdToDiv(mdFile, containerId){
-        fetch(mdFile).then(r => r.text()).then(md => {
-          const html = convertLivroVivo(md);
-          const cont = document.getElementById(containerId);
-          cont.innerHTML = html;
-          // Injeta comentários e fala (Trinity override)
-          try {
-            injectJokers('#'+containerId);
-            attachPlayable('#'+containerId);
-          }catch(err){}
-        }).catch(err => {
-          const cont = document.getElementById(containerId);
-          cont.innerHTML = '<p>Erro ao carregar conteúdo.</p>';
-        });
-      }
+    <!-- STACK 3 · Home IA -->
+    <details class="stack" data-load="homeIA">
+      <summary class="stack-summary">
+        <div class="stack-main">
+          <div class="stack-title">Home IA</div>
+          <div class="stack-sub">Versão IA do Hub1</div>
+        </div>
+        <div class="stack-meta">
+          <span class="stack-pill">IA</span>
+          <div class="stack-icon">🤖</div>
+        </div>
+      </summary>
+      <div class="stack-body" id="homeIAContent">
+        <p>Carregando Home IA…</p>
+      </div>
+    </details>
 
-      // Carrega um arquivo HTML dentro de um iframe no contêiner
-      function loadHtmlToDiv(htmlFile, containerId){
-        const cont = document.getElementById(containerId);
-        cont.innerHTML = `<iframe src="${htmlFile}" loading="lazy" style="width:100%;height:80vh;border:none;"></iframe>`;
-      }
-      // Quando um details é aberto, carregue o conteúdo correspondente
-      document.addEventListener('DOMContentLoaded', () => {
-        // Setup relógio
-        syncFromClock();
-        setInterval(updateClock, 1000);
-        document.getElementById('timeRange').addEventListener('input', (e) => {
-          updateMood(parseInt(e.target.value,10));
-        });
-        // Carregamento lazy dos stacks
-        document.querySelectorAll('details.stack').forEach(det => {
-          det.addEventListener('toggle', () => {
-            if(det.open && !det.dataset.loaded){
-              const type = det.getAttribute('data-load');
-              if(type === 'design') loadMdToDiv('README-DesignSystem-Hub1-v1.md','designContent');
-              else if(type === 'master') loadMdToDiv('Livro_Vivo_Agua_Memoria_Infodose_2.md','masterContent');
-              else if(type === 'homeIA') loadHtmlToDiv('hub1-home-ia.html','homeIAContent');
-              else if(type === 'node01') loadHtmlToDiv('node01.html','node01Content');
-              det.dataset.loaded = 'yes';
-            }
-          });
-        });
-        // Optional: open first stack by default
-        // document.querySelector('details.stack').open = true;
+    <!-- STACK 4 · Node 01 -->
+    <details class="stack" data-load="node01">
+      <summary class="stack-summary">
+        <div class="stack-main">
+          <div class="stack-title">Node 01 · Nos.S°lar</div>
+          <div class="stack-sub">Console local do servidor solar</div>
+        </div>
+        <div class="stack-meta">
+          <span class="stack-pill">Node</span>
+          <div class="stack-icon">🛰️</div>
+        </div>
+      </summary>
+      <div class="stack-body" id="node01Content">
+        <p>Carregando Node 01…</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- Converte Livro Vivo · override (se já tiver no projeto, deixa) -->
+  <script src="convertLivroVivo.js"></script>
+  <script src="livro_vivo_trinity_override.js"></script>
+
+  <script>
+    // --- Texto por mood ---
+    const moodText = {
+      manha: "Manhã focada",
+      tarde: "Tarde produtiva",
+      noite: "Noite tranquila"
+    };
+
+    const modeText = {
+      manha: "Modo: Aquecer",
+      tarde: "Modo: Fluxo",
+      noite: "Modo: Desacelerar"
+    };
+
+    const moodForHour = (h) => {
+      if (h >= 5 && h < 12) return "manha";
+      if (h >= 12 && h < 19) return "tarde";
+      return "noite"; // madrugada + noite
+    };
+
+    function updateClock() {
+      const now = new Date();
+      const el = document.getElementById("timeLeft");
+      if (!el) return;
+      el.textContent = now.toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
       });
-      // Service Worker registration
-      if('serviceWorker' in navigator){
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js').catch((err) => console.warn('SW fail', err));
+    }
+
+    function updateMood(hour) {
+      const h = Math.max(0, Math.min(23, hour));
+      const mood = moodForHour(h);
+      document.body.dataset.mood = mood;
+
+      const rangeFill = document.getElementById("rangeFill");
+      const sliderSpan = h / 23;
+      if (rangeFill) {
+        rangeFill.style.transform =
+          "scaleX(" + Math.max(0.05, sliderSpan) + ")";
+        if (mood === "manha") {
+          rangeFill.style.background =
+            "linear-gradient(90deg,#4fb6ff,#9fd3ff,#ffd48a)";
+        } else if (mood === "tarde") {
+          rangeFill.style.background =
+            "linear-gradient(90deg,#ffb45b,#ff8b3d,#ffd48a)";
+        } else {
+          rangeFill.style.background =
+            "linear-gradient(90deg,#4fb6ff,#7f6bff,#d18bff)";
+        }
+      }
+
+      const label = document.getElementById("moodLabel");
+      if (label) {
+        label.textContent = moodText[mood] || "Ritmo do dia";
+      }
+
+      const modeChip = document.getElementById("heroModeChip");
+      if (modeChip) {
+        modeChip.textContent = modeText[mood] || "Modo: Fluxo";
+      }
+
+      let greeting = "Olá!";
+      if (mood === "manha") greeting = "Bom dia!";
+      else if (mood === "tarde") greeting = "Boa tarde!";
+      else greeting = "Boa noite!";
+
+      const g = document.getElementById("heroGreeting");
+      if (g) g.textContent = greeting;
+
+      const hs = document.getElementById("heroSubtitle");
+      if (hs) {
+        if (mood === "manha")
+          hs.textContent = "Hora de organizar sua dose diária.";
+        else if (mood === "tarde")
+          hs.textContent = "Continuamos firmes na metade do dia.";
+        else
+          hs.textContent = "Desacelere sem largar seu 1%.";
+      }
+    }
+
+    function syncFromClock() {
+      const now = new Date();
+      let h = now.getHours(); // 0–23
+      const slider = document.getElementById("timeRange");
+      if (slider) slider.value = h;
+      updateMood(h);
+      updateClock();
+    }
+
+    // --- Helpers de carregamento ---
+
+    function loadMdToDiv(mdFile, containerId) {
+      const cont = document.getElementById(containerId);
+      if (!cont) return;
+      fetch(mdFile)
+        .then((r) => r.text())
+        .then((md) => {
+          let html = md;
+          try {
+            html = convertLivroVivo(md);
+          } catch (err) {
+            console.warn("convertLivroVivo não disponível, usando MD cru.");
+          }
+          cont.innerHTML = html;
+          try {
+            if (typeof injectJokers === "function") {
+              injectJokers("#" + containerId);
+            }
+            if (typeof attachPlayable === "function") {
+              attachPlayable("#" + containerId);
+            }
+          } catch (err) {
+            console.warn("enhancers livro-vivo", err);
+          }
+          setupSaveButtons(); // garante botão também nos carregados
+        })
+        .catch(() => {
+          cont.innerHTML = "<p>Erro ao carregar conteúdo.</p>";
+        });
+    }
+
+    function loadHtmlToDiv(htmlFile, containerId) {
+      const cont = document.getElementById(containerId);
+      if (!cont) return;
+
+      cont.innerHTML = `
+        <div class="iframe-shell">
+          <div class="iframe-shell-bar">
+            <span class="iframe-label">Visualizar app</span>
+            <button class="iframe-btn" type="button" data-action="toggle">Telha cheia</button>
+          </div>
+          <div class="iframe-wrapper" data-min="40" data-max="100">
+            <iframe src="${htmlFile}" loading="lazy"></iframe>
+            <div class="iframe-resizer">
+              <div class="iframe-resizer-handle"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      wireIframeButtons(containerId);
+      setupSaveButtons();
+    }
+
+    function wireIframeButtons(containerId) {
+      const cont = document.getElementById(containerId);
+      if (!cont) return;
+
+      const shell  = cont.querySelector(".iframe-shell");
+      const btn    = cont.querySelector(".iframe-btn");
+      const iframe = cont.querySelector("iframe");
+
+      if (!shell || !btn || !iframe) return;
+
+      // botão telha cheia
+      btn.addEventListener("click", () => {
+        const expanded = shell.classList.toggle("is-expanded");
+        if (expanded) {
+          btn.textContent = "Voltar";
+          iframe.style.height = "92vh";
+        } else {
+          btn.textContent = "Telha cheia";
+          iframe.style.height = "70vh";
+        }
+      });
+
+      // resizer de arrastar
+      initIframeResizer(shell);
+    }
+
+    function initIframeResizer(shell) {
+      const wrapper = shell.querySelector(".iframe-wrapper");
+      const handle  = shell.querySelector(".iframe-resizer");
+      const iframe  = shell.querySelector("iframe");
+      const btn     = shell.querySelector(".iframe-btn");
+
+      if (!wrapper || !handle || !iframe) return;
+
+      const minVH = parseInt(wrapper.getAttribute("data-min") || "40", 10);
+      const maxVH = parseInt(wrapper.getAttribute("data-max") || "100", 10);
+
+      let dragging = false;
+      let startY = 0;
+      let startHeightVH = 70;
+
+      function pointerY(e) {
+        return e.touches ? e.touches[0].clientY : e.clientY;
+      }
+
+      function onDown(e) {
+        dragging = true;
+        startY = pointerY(e);
+
+        const rect = iframe.getBoundingClientRect();
+        startHeightVH = (rect.height * 100) / window.innerHeight;
+
+        // se estava em telha cheia, volta pra modo manual
+        if (shell.classList.contains("is-expanded")) {
+          shell.classList.remove("is-expanded");
+          if (btn) btn.textContent = "Telha cheia";
+        }
+
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("touchmove", onMove, { passive: false });
+        document.addEventListener("mouseup", onUp);
+        document.addEventListener("touchend", onUp);
+
+        e.preventDefault();
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const currentY = pointerY(e);
+        const deltaPx = startY - currentY; // arrastar pra cima aumenta altura
+
+        const deltaVH = (deltaPx * 100) / window.innerHeight;
+        let newVH = startHeightVH + deltaVH;
+
+        newVH = Math.max(minVH, Math.min(maxVH, newVH));
+        iframe.style.height = newVH.toFixed(1) + "vh";
+
+        e.preventDefault();
+      }
+
+      function onUp() {
+        dragging = false;
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("touchmove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        document.removeEventListener("touchend", onUp);
+      }
+
+      handle.addEventListener("mousedown", onDown);
+      handle.addEventListener("touchstart", onDown, { passive: false });
+    }
+
+    // --- Salvar em Stack (clonar card local) ---
+
+    function setupSaveButtons() {
+      document.querySelectorAll(".stack-body").forEach((body) => {
+        // evita duplicar botão
+        if (body.querySelector(".stack-save-btn")) return;
+
+        const row = document.createElement("div");
+        row.className = "stack-save-row";
+
+        const btn = document.createElement("button");
+        btn.className = "stack-save-btn";
+        btn.type = "button";
+        btn.textContent = "Salvar em Stack";
+
+        row.appendChild(btn);
+        body.insertBefore(row, body.firstChild);
+
+        btn.addEventListener("click", () => {
+          const original = body.closest("details.stack");
+          if (!original) return;
+
+          const clone = original.cloneNode(true);
+          clone.open = false;
+          clone.dataset.local = "yes";
+
+          // limpa IDs duplicados
+          clone.querySelectorAll("[id]").forEach((el) =>
+            el.removeAttribute("id")
+          );
+
+          const app = document.querySelector(".app");
+          if (!app) return;
+          app.appendChild(clone);
+
+          // re-wira botões nos novos
+          setupSaveButtons();
+        });
+      });
+    }
+
+    // --- Boot ---
+
+    document.addEventListener("DOMContentLoaded", () => {
+      syncFromClock();
+      setInterval(updateClock, 1000);
+
+      const slider = document.getElementById("timeRange");
+      if (slider) {
+        slider.addEventListener("input", (e) => {
+          updateMood(parseInt(e.target.value, 10));
         });
       }
-    </script>
-  </body>
+
+      // Lazy load dos stacks
+      document.querySelectorAll("details.stack").forEach((det) => {
+        det.addEventListener("toggle", () => {
+          if (det.open && !det.dataset.loaded) {
+            const type = det.getAttribute("data-load");
+            if (type === "design")
+              loadMdToDiv(
+                "README-DesignSystem-Hub1-v1.md",
+                "designContent"
+              );
+            else if (type === "master")
+              loadMdToDiv(
+                "Livro_Vivo_Agua_Memoria_Infodose_2.md",
+                "masterContent"
+              );
+            else if (type === "homeIA")
+              loadHtmlToDiv("hub1-home-ia.html", "homeIAContent");
+            else if (type === "node01")
+              loadHtmlToDiv("node01.html", "node01Content");
+
+            det.dataset.loaded = "yes";
+          }
+        });
+      });
+
+      setupSaveButtons();
+    });
+
+    // Service Worker básico
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("service-worker.js")
+          .catch((err) => console.warn("SW fail", err));
+      });
+    }
+  </script>
+</body>
 </html>

@@ -10,8 +10,8 @@ const urlsToCache = [
   '/Livro_Vivo_Agua_Memoria_Infodose_2.md',
   '/hub1-home-ia.html',
   '/node01.html',
-  '/icon-192.png',
-  '/icon-512.png'
+  '/icon-192.svg',
+  '/icon-512.svg'
 ];
 
 self.addEventListener('install', event => {

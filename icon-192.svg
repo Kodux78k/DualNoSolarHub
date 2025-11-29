@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="g-bg" cx="50%" cy="0%" r="120%">
+      <stop offset="0%" stop-color="#4cc9ff"/>
+      <stop offset="45%" stop-color="#371c6b"/>
+      <stop offset="100%" stop-color="#050816"/>
+    </radialGradient>
+    <radialGradient id="g-sun" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#fff2c5"/>
+      <stop offset="45%" stop-color="#ffd37a"/>
+      <stop offset="100%" stop-color="#ff9f4a"/>
+    </radialGradient>
+  </defs>
+
+  <!-- fundo nebula -->
+  <rect x="0" y="0" width="192" height="192" rx="40" fill="url(#g-bg)" />
+
+  <!-- halo -->
+  <circle cx="96" cy="84" r="54" fill="none" stroke="#ffe5a1" stroke-opacity="0.4" stroke-width="6"/>
+
+  <!-- sol -->
+  <circle cx="96" cy="84" r="34" fill="url(#g-sun)">
+    <animate attributeName="r" values="32;36;32" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- “raios” minimalistas -->
+  <g stroke="#ffce8a" stroke-linecap="round" stroke-width="4" stroke-opacity="0.8">
+    <line x1="96" y1="30" x2="96" y2="18"/>
+    <line x1="96" y1="150" x2="96" y2="162"/>
+    <line x1="42" y1="84" x2="30" y2="84"/>
+    <line x1="150" y1="84" x2="162" y2="84"/>
+  </g>
+
+  <!-- barra base madeira -->
+  <rect x="20" y="132" width="152" height="36" rx="14" fill="rgba(5,5,10,0.85)" stroke="rgba(255,255,255,0.22)" />
+  <text x="96" y="154" text-anchor="middle"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text'"
+        font-size="14" fill="#f8f5ff">
+    Hub1 · Solar+IA
+  </text>
+</svg>

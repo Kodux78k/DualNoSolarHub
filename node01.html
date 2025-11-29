@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<!-- MOBILE-FIRST VERTICAL HARD-LOCK -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nos.S°lar Node 01 · Console Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <style>
+    :root {
+      /* Nebula Pro + Base Madeira */
+      --bg-top: #07152a;
+      --bg-mid: #050816;
+      --bg-bottom: #1f0b06;
+
+      --accent-blue: #39c5ff;
+      --accent-warm: #ff9a3c;
+      --accent-soft: #ffdf9a;
+
+      --text-main: #f9fbff;
+      --text-soft: #c1c7dd;
+      --text-muted: #8b92a6;
+
+      --danger: #ff6b81;
+      --success: #60f7b3;
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-pill: 999px;
+
+      --shadow-soft: 0 22px 60px rgba(0,0,0,0.8);
+      --shadow-card: 0 14px 36px rgba(0,0,0,0.85);
+
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --gap: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "SF Pro Text", Inter, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0% -20%, #263b73 0%, transparent 60%),
+        radial-gradient(circle at 120% 120%, #7b3b16 0%, transparent 60%),
+        linear-gradient(150deg, #050816, #05040a 70%, #120605 100%);
+    }
+
+    body {
+      display: block;
+      padding: 18px 16px calc(18px + var(--safe-bottom));
+      overflow-x: hidden;
+    }
+
+    .app {
+      max-width: 430px;
+      margin: 0 auto;
+      border-radius: 32px;
+      padding: 16px 16px calc(20px + var(--safe-bottom));
+      background:
+        radial-gradient(circle at 0% -20%, rgba(61,122,255,0.28), transparent 60%),
+        radial-gradient(circle at 120% 120%, rgba(255,120,55,0.33), transparent 55%),
+        linear-gradient(165deg, rgba(10,12,24,0.98), rgba(6,7,14,0.98));
+      position: relative;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+    }
+
+    .brand-node {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .brand-node span {
+      color: var(--accent-soft);
+    }
+
+    .tag-pill {
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.09), rgba(8,10,21,0.95));
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+    }
+
+    .tag-pill span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(96,247,179,0.9);
+    }
+
+    .app-main {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      margin-top: 4px;
+    }
+
+    /* CARD GENÉRICO */
+
+    .card {
+      border-radius: 24px;
+      padding: 12px 12px 11px;
+      background: rgba(8,10,23,0.94);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .card-badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 11px;
+      color: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.07), rgba(6,8,18,0.97));
+    }
+
+    .card-badge i {
+      font-size: 12px;
+    }
+
+    /* STATUS LUZ / BATERIA / REDE */
+
+    .solar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .solar-card {
+      border-radius: 16px;
+      padding: 6px 6px 7px;
+      background: rgba(7,10,22,0.96);
+      border: 1px solid rgba(255,255,255,0.16);
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .solar-label {
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .solar-state {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .solar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(96,247,179,0.9);
+    }
+
+    .solar-icon {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .solar-text {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .solar-hash {
+      margin-top: 8px;
+      border-radius: 13px;
+      padding: 7px 8px;
+      background: rgba(7,9,20,0.98);
+      border: 1px dashed rgba(255,255,255,0.24);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    /* CONFIGURAÇÃO */
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .field label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .field small {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .field input {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(5,8,19,0.98);
+      padding: 6px 8px;
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .url-preview {
+      margin-top: 6px;
+      border-radius: 12px;
+      padding: 6px 8px;
+      background: rgba(7,9,20,0.98);
+      border: 1px dashed rgba(255,255,255,0.24);
+      font-size: 11px;
+      color: var(--text-soft);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      word-break: break-all;
+    }
+
+    .btn-row {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.12), rgba(6,8,18,0.96));
+      color: var(--text-soft);
+      font-size: 12px;
+      padding: 7px 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(140deg, #39c5ff, #ffb35c);
+      color: #050816;
+      font-weight: 600;
+    }
+
+    /* NOTAS */
+
+    .notes-area {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .notes-area textarea {
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(4,7,18,0.98);
+      padding: 6px 8px;
+      font-size: 12px;
+      color: var(--text-main);
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .notes-hint {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* LOG */
+
+    .app-footer {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .log-box {
+      border-radius: 14px;
+      padding: 7px 8px;
+      background: rgba(5,7,18,0.98);
+      border: 1px solid rgba(255,255,255,0.16);
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .log-box strong {
+      color: var(--accent-warm);
+    }
+
+    .foot {
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-title">Nos.S°lar · Node Local</div>
+        <div class="brand-node">Node <span>01</span> · Console</div>
+      </div>
+      <div class="tag-pill" id="tagStatus">
+        <span class="dot"></span>
+        <span>Online simbólico</span>
+      </div>
+    </header>
+
+    <main class="app-main">
+
+      <!-- STATUS -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Status solar</div>
+            <div class="card-sub">Use como painel rápido de Luz, Bateria e Rede.</div>
+          </div>
+          <div class="card-badge"><i>☀️</i><span>Nos.S°lar</span></div>
+        </div>
+
+        <div class="solar-grid" id="solarGrid">
+          <div class="solar-card" data-kind="luz" data-state-index="0">
+            <div class="solar-label">Luz</div>
+            <div class="solar-state">
+              <span class="solar-dot"></span>
+              <span class="solar-icon">☀️</span>
+              <span class="solar-text">OK · captando</span>
+            </div>
+          </div>
+
+          <div class="solar-card" data-kind="bateria" data-state-index="0">
+            <div class="solar-label">Bateria</div>
+            <div class="solar-state">
+              <span class="solar-dot"></span>
+              <span class="solar-icon">🔋</span>
+              <span class="solar-text">OK · 3·6·9</span>
+            </div>
+          </div>
+
+          <div class="solar-card" data-kind="rede" data-state-index="0">
+            <div class="solar-label">Rede</div>
+            <div class="solar-state">
+              <span class="solar-dot"></span>
+              <span class="solar-icon">📡</span>
+              <span class="solar-text">OK · local</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="solar-hash" id="solarHash">
+          Hash Solar do dia: …
+        </div>
+      </section>
+
+      <!-- CONFIG -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Configuração do Node 01</div>
+            <div class="card-sub">Nome público, host local e porta do servidor.</div>
+          </div>
+          <div class="card-badge"><i>⚙️</i><span>Config</span></div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="nomeNode">Nome público do nó</label>
+            <input id="nomeNode" type="text" placeholder="Ex.: Node 01 · Quarto, Node 01 · Lab" />
+            <small>Esse nome aparece no Hub1 e em relatórios.</small>
+          </div>
+
+          <div class="field">
+            <label for="hostNode">Host local</label>
+            <input id="hostNode" type="text" placeholder="Ex.: 192.168.0.100" />
+            <small>IP ou hostname acessível na sua rede.</small>
+          </div>
+
+          <div class="field">
+            <label for="portaNode">Porta</label>
+            <input id="portaNode" type="text" placeholder="Ex.: 8080" />
+            <small>Porta onde o Hub1 está servindo (python, nginx, etc.).</small>
+          </div>
+        </div>
+
+        <div class="url-preview" id="urlPreview">
+          URL local do Node 01: —
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" type="button" id="btnTestar">
+            🔗 Testar URL
+          </button>
+          <button class="btn btn-primary" type="button" id="btnSalvar">
+            💾 Salvar Node 01
+          </button>
+        </div>
+      </section>
+
+      <!-- NOTAS -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Notas do nó</div>
+            <div class="card-sub">Use como diário rápido desse servidor específico.</div>
+          </div>
+          <div class="card-badge"><i>📝</i><span>Log vivo</span></div>
+        </div>
+
+        <div class="notes-area">
+          <textarea id="notasNode" placeholder="Ex.: 28/11 – Testei o Hub1 com o pai no notebook. Painel solar segurou 3h."></textarea>
+          <div class="notes-hint">
+            As notas ficam salvas só neste navegador (localStorage). Pode usar como diário técnico + simbólico do Node 01.
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <div class="log-box" id="logBox">
+        Toque em um painel ou botão para ver o log aqui.
+      </div>
+      <div class="foot">
+        Nos.S°lar Node 01 · 3·6·9 · “Luz no centro, código ao redor”.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const logBox = document.getElementById('logBox');
+      const solarHashEl = document.getElementById('solarHash');
+      const tagStatus = document.getElementById('tagStatus');
+
+      const nomeNode = document.getElementById('nomeNode');
+      const hostNode = document.getElementById('hostNode');
+      const portaNode = document.getElementById('portaNode');
+      const urlPreview = document.getElementById('urlPreview');
+
+      const btnTestar = document.getElementById('btnTestar');
+      const btnSalvar = document.getElementById('btnSalvar');
+
+      const notasNode = document.getElementById('notasNode');
+
+      function log(msg) {
+        const t = new Date().toLocaleTimeString('pt-BR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        logBox.innerHTML = '[' + t + '] <strong>' + msg + '</strong>';
+      }
+
+      function computeHashSolar() {
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        const h = String(now.getHours()).padStart(2, '0');
+        const tail = (now.getDay() * 3 + now.getHours()) % 9;
+        return 'NODE01-' + y + '-' + m + d + '-H' + h + '-K' + tail;
+      }
+
+      if (solarHashEl) {
+        solarHashEl.textContent = 'Hash Solar do dia: ' + computeHashSolar();
+      }
+
+      const solarStates = [
+        { label: 'OK', dot: 'var(--success)', text: 'OK · estável' },
+        { label: 'Instável', dot: '#ffb35c', text: 'Instável · observar' },
+        { label: 'Desligado', dot: '#ff6b81', text: 'Offline · verificar' }
+      ];
+
+      const solarGrid = document.getElementById('solarGrid');
+      if (solarGrid) {
+        solarGrid.querySelectorAll('.solar-card').forEach(card => {
+          card.addEventListener('click', () => {
+            let idx = parseInt(card.getAttribute('data-state-index') || '0', 10);
+            idx = (idx + 1) % solarStates.length;
+            card.setAttribute('data-state-index', String(idx));
+            const st = solarStates[idx];
+            const dot = card.querySelector('.solar-dot');
+            const text = card.querySelector('.solar-text');
+            const kind = card.getAttribute('data-kind') || '';
+
+            if (dot) {
+              dot.style.background = st.dot;
+              dot.style.boxShadow = '0 0 10px ' + st.dot;
+            }
+
+            if (text) {
+              if (kind === 'luz') {
+                text.textContent =
+                  st.label === 'OK'
+                    ? 'OK · captando'
+                    : st.label === 'Instável'
+                    ? 'Instável · nublado'
+                    : 'Desligado · noite';
+              } else if (kind === 'bateria') {
+                text.textContent =
+                  st.label === 'OK'
+                    ? 'OK · 3·6·9'
+                    : st.label === 'Instável'
+                    ? 'Instável · abaixo de 36%'
+                    : 'Desligado · proteger';
+              } else if (kind === 'rede') {
+                text.textContent =
+                  st.label === 'OK'
+                    ? 'OK · local'
+                    : st.label === 'Instável'
+                    ? 'Instável · latência'
+                    : 'Offline · nó isolado';
+              } else {
+                text.textContent = st.text;
+              }
+            }
+
+            log('Estado de ' + kind.toUpperCase() + ' agora: ' + st.label);
+            updateTagStatus();
+          });
+        });
+      }
+
+      function updateTagStatus() {
+        if (!tagStatus) return;
+        const cards = solarGrid.querySelectorAll('.solar-card');
+        let anyOff = false;
+        let anyUnstable = false;
+
+        cards.forEach(card => {
+          const idx = parseInt(card.getAttribute('data-state-index') || '0', 10);
+          if (idx === 2) anyOff = true;
+          if (idx === 1) anyUnstable = true;
+        });
+
+        const dot = tagStatus.querySelector('.dot');
+        const span = tagStatus.querySelector('span:nth-child(2)');
+        if (!dot || !span) return;
+
+        if (anyOff) {
+          dot.style.background = 'var(--danger)';
+          dot.style.boxShadow = '0 0 10px var(--danger)';
+          span.textContent = 'Node em atenção';
+        } else if (anyUnstable) {
+          dot.style.background = '#ffb35c';
+          dot.style.boxShadow = '0 0 10px #ffb35c';
+          span.textContent = 'Node instável';
+        } else {
+          dot.style.background = 'var(--success)';
+          dot.style.boxShadow = '0 0 10px var(--success)';
+          span.textContent = 'Online simbólico';
+        }
+      }
+
+      function buildUrlPreview() {
+        const host = (hostNode.value || '').trim();
+        const porta = (portaNode.value || '').trim();
+        if (!host) {
+          urlPreview.textContent = 'URL local do Node 01: —';
+          return;
+        }
+        const portPart = porta ? ':' + porta : '';
+        urlPreview.textContent = 'URL local do Node 01: http://' + host + portPart + '/';
+      }
+
+      function saveConfig() {
+        const cfg = {
+          nome: (nomeNode.value || '').trim(),
+          host: (hostNode.value || '').trim(),
+          porta: (portaNode.value || '').trim()
+        };
+        localStorage.setItem('nosolar_node01_config', JSON.stringify(cfg));
+        log('Configuração do Node 01 salva neste navegador.');
+      }
+
+      function loadConfig() {
+        try {
+          const raw = localStorage.getItem('nosolar_node01_config');
+          if (!raw) return;
+          const cfg = JSON.parse(raw);
+          if (cfg.nome && nomeNode) nomeNode.value = cfg.nome;
+          if (cfg.host && hostNode) hostNode.value = cfg.host;
+          if (cfg.porta && portaNode) portaNode.value = cfg.porta;
+          buildUrlPreview();
+        } catch (e) {
+          console.warn('Erro ao carregar config Node 01', e);
+        }
+      }
+
+      function saveNotas() {
+        const text = notasNode.value || '';
+        localStorage.setItem('nosolar_node01_notas', text);
+        log('Notas do Node 01 salvas.');
+      }
+
+      function loadNotas() {
+        try {
+          const text = localStorage.getItem('nosolar_node01_notas');
+          if (text && notasNode) notasNode.value = text;
+        } catch (e) {
+          console.warn('Erro ao carregar notas Node 01', e);
+        }
+      }
+
+      if (hostNode && portaNode) {
+        hostNode.addEventListener('input', buildUrlPreview);
+        portaNode.addEventListener('input', buildUrlPreview);
+      }
+
+      if (btnSalvar) {
+        btnSalvar.addEventListener('click', saveConfig);
+      }
+
+      if (btnTestar) {
+        btnTestar.addEventListener('click', () => {
+          const host = (hostNode.value || '').trim();
+          const porta = (portaNode.value || '').trim();
+          if (!host) {
+            alert('Preencha pelo menos o host do Node 01 (IP / hostname).');
+            return;
+          }
+          const portPart = porta ? ':' + porta : '';
+          const url = 'http://' + host + portPart + '/';
+          window.open(url, '_blank');
+          log('Abrindo URL do Node 01 em nova aba.');
+        });
+      }
+
+      if (notasNode) {
+        notasNode.addEventListener('blur', saveNotas);
+      }
+
+      loadConfig();
+      loadNotas();
+      buildUrlPreview();
+      updateTagStatus();
+      log('Nos.S°lar Node 01 inicializado.');
+    })();
+  </script>
+</body>
+</html>

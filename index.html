@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Hub1 · Apps Integrados</title>
+    <!-- Manifest & Icons for PWA -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <meta name="theme-color" content="#050d18" />
+    <style>
+      /* === Tokens de cores básicas === */
+      :root {
+        --bg-start: #0a0e18;
+        --bg-end: #050d10;
+        --panel: rgba(7, 14, 28, 0.85);
+        --panel-soft: rgba(7, 14, 28, 0.70);
+        --ink: #eafcff;
+        --muted: #9fb3cc;
+        --accent: #7dd3fc;
+        --radius-card: 14px;
+      }
+
+      /* === Reset e estrutura === */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body { height: 100%; }
+      body {
+        background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
+        color: var(--ink);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: hidden;
+      }
+      .app {
+        width: 100%;
+        max-width: 480px;
+        padding: 16px;
+      }
+
+      /* === Hero / Painel de horário === */
+      .hero-card {
+        background: var(--panel);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      }
+      .hero-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .hero-title { font-size: 1.4rem; font-weight: 600; }
+      .hero-subtitle { font-size: 1rem; color: var(--muted); margin-top: 4px; }
+      .hero-slider { margin-top: 16px; }
+      .hero-slider-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+      .label-mood {
+        background: var(--accent);
+        color: #051923;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+      }
+      .range-wrap { position: relative; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 8px; }
+      .range-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--accent); border-radius: 4px; transform-origin: left center; transform: scaleX(0.1); }
+      input.hero-range {
+        width: 100%; margin-top: 12px;
+        appearance: none;
+        background: transparent;
+        height: 24px;
+      }
+      input.hero-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px; height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 0 2px #051923;
+      }
+      input.hero-range::-moz-range-thumb {
+        width: 20px; height: 20px;
+        background: var(--accent);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      /* === Stacks (cards sanfonados) === */
+      details.stack {
+        background: var(--panel);
+        border-radius: var(--radius-card);
+        backdrop-filter: blur(12px);
+        box-shadow:
+          0 18px 40px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(255, 255, 255, 0.03);
+        margin-bottom: 12px;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+      details.stack[open] {
+        box-shadow:
+          0 22px 46px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(255, 255, 255, 0.04);
+      }
+      summary.stack-summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        cursor: pointer;
+      }
+      .stack-main { display: flex; flex-direction: column; }
+      .stack-title { font-size: 1.1rem; font-weight: 600; }
+      .stack-sub { font-size: 0.85rem; color: var(--muted); }
+      .stack-meta { display: flex; align-items: center; gap: 8px; }
+      .stack-pill {
+        background: rgba(255,255,255,0.1);
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+      }
+      .stack-icon { font-size: 1.2rem; }
+      .stack-body { padding: 16px; color: var(--ink); font-size: 0.95rem; }
+      /* Pre format para código gerado pelo Livro Vivo */
+      pre.md-code { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- Hero / Painel de horário -->
+      <section class="hero-card">
+        <div class="hero-top">
+          <div id="timeLeft">00:00</div>
+          <!-- Você pode adicionar um botão de voz futuramente -->
+        </div>
+        <div class="hero-title" id="heroGreeting">Olá!</div>
+        <div class="hero-subtitle" id="heroSubtitle">Bem‑vindo ao Hub1 integrado.</div>
+        <div class="hero-slider">
+          <div class="hero-slider-row">
+            <span>6h</span>
+            <span class="label-mood" id="moodLabel">Manhã</span>
+            <span>21h</span>
+          </div>
+          <div class="range-wrap">
+            <div class="range-fill" id="rangeFill"></div>
+          </div>
+          <input class="hero-range" id="timeRange" type="range" min="6" max="21" step="1" value="9" />
+        </div>
+      </section>
+
+      <!-- Stack 1: Design System Guia -->
+      <details class="stack" data-load="design">
+        <summary class="stack-summary">
+          <div class="stack-main">
+            <div class="stack-title">Design System</div>
+            <div class="stack-sub">Guia e classes</div>
+          </div>
+          <div class="stack-meta">
+            <span class="stack-pill">Docs</span>
+            <div class="stack-icon">📘</div>
+          </div>
+        </summary>
+        <div class="stack-body" id="designContent">
+          <p>Carregando guia…</p>
+        </div>
+      </details>
+
+      <!-- Stack 2: Masterclass Livro Vivo -->
+      <details class="stack" data-load="master">
+        <summary class="stack-summary">
+          <div class="stack-main">
+            <div class="stack-title">Masterclass</div>
+            <div class="stack-sub">Conteúdo Livro Vivo</div>
+          </div>
+          <div class="stack-meta">
+            <span class="stack-pill">Aula</span>
+            <div class="stack-icon">📖</div>
+          </div>
+        </summary>
+        <div class="stack-body" id="masterContent">
+          <p>Carregando masterclass…</p>
+        </div>
+      </details>
+
+      <!-- Stack 3: Home IA -->
+      <details class="stack" data-load="homeIA">
+        <summary class="stack-summary">
+          <div class="stack-main">
+            <div class="stack-title">Home IA</div>
+            <div class="stack-sub">Versão IA do Hub1</div>
+          </div>
+          <div class="stack-meta">
+            <span class="stack-pill">IA</span>
+            <div class="stack-icon">🤖</div>
+          </div>
+        </summary>
+        <div class="stack-body" id="homeIAContent">
+          <p>Carregando Home IA…</p>
+        </div>
+      </details>
+
+      <!-- Stack 4: Node 01 -->
+      <details class="stack" data-load="node01">
+        <summary class="stack-summary">
+          <div class="stack-main">
+            <div class="stack-title">Node 01</div>
+            <div class="stack-sub">Console local</div>
+          </div>
+          <div class="stack-meta">
+            <span class="stack-pill">Node</span>
+            <div class="stack-icon">🛰️</div>
+          </div>
+        </summary>
+        <div class="stack-body" id="node01Content">
+          <p>Carregando Node 01…</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Scripts -->
+    <script src="convertLivroVivo.js"></script>
+    <script src="livro_vivo_trinity_override.js"></script>
+    <script>
+      // Atualiza relógio em tempo real
+      function updateClock(){
+        const now = new Date();
+        document.getElementById('timeLeft').textContent = now.toLocaleTimeString('pt-BR',{hour:'2-digit', minute:'2-digit'});
+      }
+      // Define humor a partir da hora
+      const moodForHour = h => (h >= 5 && h < 12 ? 'manha' : (h < 19 ? 'tarde' : 'noite'));
+      const moodText = { manha:'Manhã focada', tarde:'Tarde produtiva', noite:'Noite tranquila' };
+      function updateMood(h){
+        const rangeFill = document.getElementById('rangeFill');
+        const span = (h - 6) / (21 - 6);
+        rangeFill.style.transform = `scaleX(${Math.max(0.05, span)})`;
+        const mood = moodForHour(h);
+        document.body.setAttribute('data-mood', mood);
+        document.getElementById('moodLabel').textContent = moodText[mood] || '';
+        let greeting = 'Olá!';
+        if(mood==='manha') greeting = 'Bom dia!';
+        else if(mood==='tarde') greeting = 'Boa tarde!';
+        else greeting = 'Boa noite!';
+        document.getElementById('heroGreeting').textContent = greeting;
+        // Mudança de subtítulo
+        const hs = document.getElementById('heroSubtitle');
+        if(mood==='manha') hs.textContent = 'Hora de organizar sua dose diária.';
+        else if(mood==='tarde') hs.textContent = 'Continuamos firmes na metade do dia.';
+        else hs.textContent = 'Desacelere sem largar seu 1%.';
+      }
+      // Sincroniza slider com relógio atual
+      function syncFromClock(){
+        const now = new Date();
+        let h = now.getHours();
+        if(h < 6) h = 6; if(h > 21) h = 21;
+        document.getElementById('timeRange').value = h;
+        updateMood(h);
+        updateClock();
+      }
+
+      // Carrega markdown e converte para HTML
+      function loadMdToDiv(mdFile, containerId){
+        fetch(mdFile).then(r => r.text()).then(md => {
+          const html = convertLivroVivo(md);
+          const cont = document.getElementById(containerId);
+          cont.innerHTML = html;
+          // Injeta comentários e fala (Trinity override)
+          try {
+            injectJokers('#'+containerId);
+            attachPlayable('#'+containerId);
+          }catch(err){}
+        }).catch(err => {
+          const cont = document.getElementById(containerId);
+          cont.innerHTML = '<p>Erro ao carregar conteúdo.</p>';
+        });
+      }
+
+      // Carrega um arquivo HTML dentro de um iframe no contêiner
+      function loadHtmlToDiv(htmlFile, containerId){
+        const cont = document.getElementById(containerId);
+        cont.innerHTML = `<iframe src="${htmlFile}" loading="lazy" style="width:100%;height:80vh;border:none;"></iframe>`;
+      }
+      // Quando um details é aberto, carregue o conteúdo correspondente
+      document.addEventListener('DOMContentLoaded', () => {
+        // Setup relógio
+        syncFromClock();
+        setInterval(updateClock, 1000);
+        document.getElementById('timeRange').addEventListener('input', (e) => {
+          updateMood(parseInt(e.target.value,10));
+        });
+        // Carregamento lazy dos stacks
+        document.querySelectorAll('details.stack').forEach(det => {
+          det.addEventListener('toggle', () => {
+            if(det.open && !det.dataset.loaded){
+              const type = det.getAttribute('data-load');
+              if(type === 'design') loadMdToDiv('README-DesignSystem-Hub1-v1.md','designContent');
+              else if(type === 'master') loadMdToDiv('Livro_Vivo_Agua_Memoria_Infodose_2.md','masterContent');
+              else if(type === 'homeIA') loadHtmlToDiv('hub1-home-ia.html','homeIAContent');
+              else if(type === 'node01') loadHtmlToDiv('node01.html','node01Content');
+              det.dataset.loaded = 'yes';
+            }
+          });
+        });
+        // Optional: open first stack by default
+        // document.querySelector('details.stack').open = true;
+      });
+      // Service Worker registration
+      if('serviceWorker' in navigator){
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('service-worker.js').catch((err) => console.warn('SW fail', err));
+        });
+      }
+    </script>
+  </body>
+</html>

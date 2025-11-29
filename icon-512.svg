@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="0%" cy="0%" r="140%">
+      <stop offset="0%" stop-color="#47c5ff"/>
+      <stop offset="40%" stop-color="#2a1e5a"/>
+      <stop offset="85%" stop-color="#050816"/>
+      <stop offset="100%" stop-color="#020309"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fff7d6"/>
+      <stop offset="35%" stop-color="#ffe18e"/>
+      <stop offset="100%" stop-color="#ff9f4a"/>
+    </radialGradient>
+    <linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5f3d23"/>
+      <stop offset="50%" stop-color="#8d5a33"/>
+      <stop offset="100%" stop-color="#c68545"/>
+    </linearGradient>
+  </defs>
+
+  <!-- fundo arredondado -->
+  <rect x="16" y="16" width="480" height="480" rx="120" fill="url(#bg)"/>
+
+  <!-- nebulosa -->
+  <ellipse cx="120" cy="90" rx="140" ry="110" fill="rgba(116,180,255,0.38)"/>
+  <ellipse cx="390" cy="410" rx="180" ry="140" fill="rgba(255,164,103,0.28)"/>
+
+  <!-- órbita -->
+  <circle cx="256" cy="210" r="150" fill="none" stroke="#ffe6ae" stroke-width="7" stroke-opacity="0.5"/>
+
+  <!-- sol -->
+  <circle cx="256" cy="210" r="96" fill="url(#sun)"/>
+  <!-- pulso interno -->
+  <circle cx="256" cy="210" r="52" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="5" stroke-dasharray="6 10"/>
+
+  <!-- “camadas” de servidor solar -->
+  <g stroke-linecap="round" stroke="rgba(0,0,0,0.35)">
+    <rect x="126" y="272" width="260" height="8" rx="4" fill="#151828"/>
+    <rect x="140" y="292" width="232" height="8" rx="4" fill="#151828"/>
+  </g>
+
+  <!-- base madeira/console -->
+  <rect x="72" y="320" width="368" height="110" rx="28" fill="rgba(5,8,18,0.96)" stroke="rgba(255,255,255,0.22)"/>
+
+  <!-- faixa madeira -->
+  <rect x="82" y="330" width="348" height="40" rx="20" fill="url(#wood)" opacity="0.95"/>
+  <text x="256" y="356" text-anchor="middle"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont"
+        font-size="22" fill="#fff7e4" letter-spacing="0.16em">
+    NOS.S°LAR · HUB1
+  </text>
+
+  <!-- chips -->
+  <g font-family="system-ui, -apple-system, BlinkMacSystemFont" font-size="14">
+    <rect x="92" y="382" width="110" height="34" rx="16"
+          fill="rgba(13,19,40,0.96)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="147" y="404" text-anchor="middle" fill="#dde3ff">Luz · 3·6·9</text>
+
+    <rect x="202" y="382" width="110" height="34" rx="16"
+          fill="rgba(13,19,40,0.96)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="257" y="404" text-anchor="middle" fill="#dde3ff">Bateria</text>
+
+    <rect x="312" y="382" width="110" height="34" rx="16"
+          fill="rgba(13,19,40,0.96)" stroke="rgba(255,255,255,0.2)"/>
+    <text x="367" y="404" text-anchor="middle" fill="#dde3ff">Rede IA</text>
+  </g>
+
+  <!-- selo inferior -->
+  <text x="256" y="448" text-anchor="middle"
+        font-family="system-ui, -apple-system, BlinkMacSystemFont"
+        font-size="14" fill="rgba(220,226,255,0.85)">
+    Dual.Infodose · Solar+IA
+  </text>
+</svg>
